@@ -4,19 +4,20 @@ import PropTypes from 'prop-types'
 class ChatInput extends Component {
   static propTypes = {
     onSubmitMessage: PropTypes.func.isRequired,
-  }
+  };
+
   state = {
     message: '',
-  }
+  };
 
   render() {
     return (
       <form
-        action="."
+        action=".."
         onSubmit={e => {
-          e.preventDefault()
-          this.props.onSubmitMessage(this.state.message)
-          this.setState({ message: '' })
+          e.preventDefault();
+          this.props.onSubmitMessage(this.state.message);
+          this.setState({ message: '' });
         }}
       >
         <input
