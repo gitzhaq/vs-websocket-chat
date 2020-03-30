@@ -88,7 +88,7 @@ router.post('/login', (req, res, next) => {
             }
 
             // Check if password is valid
-            if (!res) {
+            if (!pwRes) {
                 res.status(401).json(result);
             } else {
                 // Generate token
