@@ -97,4 +97,27 @@ router.post('/login', (req, res, next) => {
     });
 });
 
+/**
+ * GET check authentication.
+ */
+router.get('/check-auth', (req, res) => {
+    const token =
+        req.body.token ||
+        req.query.token ||
+        req.headers['x-access-token'] ||
+        req.cookies.token;
+
+    if (!token) {
+        res.status(401).send('Unauthorized: No token provided');
+    } else {
+        jwtAuthenticator.verify(token, function(err, decoded) {
+            if (err) {
+                res.status(401).send('Unauthorized: Invalid token');
+            } else {
+                res.send('Authorized');
+            }
+        });
+    }
+});
+
 module.exports = router;

@@ -1,29 +1,15 @@
 import React, {Component} from 'react'
 import './App.css'
 import Chat from './components/Chat/Chat'
-import Login from './components/Authentication/Login'
-import Cookies from "js-cookie";
+import Authenticator from './components/Authentication/Authenticator'
 
 class App extends Component {
-    state = {
-        token: Cookies.get('token')
-    };
-
-    handleToken(token) {
-        this.setState({token: token});
-    }
-
     render() {
-        let view;
-        if (!this.state.token) {
-            view = <Login handleToken={this.handleToken.bind(this)}/>
-        } else {
-            view = <Chat/>
-        }
-
         return (
             <div className="App">
-                {view}
+                <Authenticator>
+                    <Chat/>
+                </Authenticator>
             </div>
         )
     }
