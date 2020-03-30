@@ -28,7 +28,7 @@ class Login extends Component {
         }).then(res => {
                 if (res.status === 200) {
                     res.json().then(json => {
-                        Cookies.set('username', this.state.username);
+                        Cookies.set('username', this.state.username.toLowerCase());
                         Cookies.set('token', json.token);
                         this.props.handleSuccess();
                     });
