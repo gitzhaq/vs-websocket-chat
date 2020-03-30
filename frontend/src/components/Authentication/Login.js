@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
 
 class Login extends Component {
     static propTypes = {
-        handleToken: PropTypes.func.isRequired,
+        handleSuccess: PropTypes.func.isRequired,
     };
 
     state = {
@@ -30,7 +30,7 @@ class Login extends Component {
                     res.json().then(json => {
                         Cookies.set('username', this.state.username);
                         Cookies.set('token', json.token);
-                        this.props.handleToken(json.token);
+                        this.props.handleSuccess();
                     });
                 } else {
                     throw new Error(res.error);

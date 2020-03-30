@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
 import ChatInput from './ChatInput'
 import ChatMessage from './ChatMessage'
 
-const URL = 'ws://localhost:3030';
+const URL = `ws://${window.location.hostname}:3030`;
 
 class Chat extends Component {
     state = {
