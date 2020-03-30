@@ -50,7 +50,11 @@ router.post('/register', (req, res, next) => {
                 }
             });
 
-            result.message = 'Successful registered';
+            // Generate token
+            const token = jwtAuthenticator.sign({username});
+            result.message = 'Successfully registered';
+            result.username = username;
+            result.token = token;
             res.json(result);
         });
     });
@@ -94,6 +98,7 @@ router.post('/login', (req, res, next) => {
                 // Generate token
                 const token = jwtAuthenticator.sign({username});
                 result.message = 'Successfully logged in';
+                result.username = username;
                 result.token = token;
                 res.json(result);
             }
