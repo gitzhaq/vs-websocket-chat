@@ -12,7 +12,9 @@ const jwtAuthenticator = require('../helpers/jwtAuthenticator');
  * POST register.
  */
 router.post('/register', (req, res, next) => {
-    const { username, password } = req.body;
+    let { username, password } = req.body;
+    username = username.toLowerCase();
+
     const result = {message: "This username exists already. Sorry 'bout that..."};
 
     User.findOne({username: username}, function (err, user) {
@@ -58,7 +60,9 @@ router.post('/register', (req, res, next) => {
  * POST login.
  */
 router.post('/login', (req, res, next) => {
-    const { username, password } = req.body;
+    let { username, password } = req.body;
+    username = username.toLowerCase();
+
     const result = {message: 'Some credentials are wrong here...'};
 
     // Check if user email exists
