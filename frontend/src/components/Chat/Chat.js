@@ -45,35 +45,44 @@ class Chat extends Component {
         }
     }
 
-    addMessage = message => this.setState(state => ({messages: [message, ...state.messages]}));
+    addMessage = message => this.setState(state => ({messages: [...state.messages, message]}));
 
-    submitMessage = messageString => {
+    submitMessage = (messageString, date) => {
         // on submitting the ChatInput form, send the message, add it to the list and reset the input
         this.ws.send(JSON.stringify({
             type: 'chat',
-            payload: {message: messageString}
+            payload: {
+                message: messageString,
+                date: date
+            }
         }));
 
         this.addMessage({
             username: this.state.username,
-            message: messageString
+            message: messageString,
+            date: date
         });
     };
 
     render() {
         return (
-            <div>
-                <ChatInput
-                    ws={this.ws}
-                    onSubmitMessage={messageString => this.submitMessage(messageString)}
-                />
-                {this.state.messages.map((message, index) =>
-                    <ChatMessage
+            <div className={'flex-col full-height'}>
+                <div className={'flex-grow-1'}>
+                    {this.state.messages.map((message, index) =>
+                      <ChatMessage
                         key={index}
                         username={message.username}
                         message={message.message}
-                    />,
-                )}
+                        date={message.date}
+                      />,
+                    )}
+                </div>
+                <div>
+                    <ChatInput
+                      ws={this.ws}
+                      onSubmitMessage={(messageString, date) => this.submitMessage(messageString, date)}
+                    />
+                </div>
             </div>
         )
     }
