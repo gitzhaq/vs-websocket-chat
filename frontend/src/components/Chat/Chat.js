@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import Cookies from 'js-cookie';
 import ChatInput from './ChatInput'
 import ChatMessage from './ChatMessage'
+import Logout from "../Authentication/Logout";
 
 const URL = `ws://${window.location.hostname}:3030`;
 
@@ -67,7 +68,10 @@ class Chat extends Component {
     render() {
         return (
             <div className={'flex-col full-height'}>
-                <div className={'flex-grow-1'}>
+                <div className={'top-navbar'}>
+                    <Logout/>
+                </div>
+                <div className={'chat-window'}>
                     {this.state.messages.map((message, index) =>
                       <ChatMessage
                         key={index}
@@ -77,7 +81,7 @@ class Chat extends Component {
                       />,
                     )}
                 </div>
-                <div>
+                <div className={'chat-input'}>
                     <ChatInput
                       ws={this.ws}
                       onSubmitMessage={(messageString, date) => this.submitMessage(messageString, date)}
