@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Cookies from 'js-cookie';
+import { Button } from 'react-chat-elements'
 
 class Logout extends Component {
     logout() {
@@ -9,7 +10,12 @@ class Logout extends Component {
     }
 
     render() {
-        return <button onClick={this.logout.bind(this)}>Logout</button>;
+        return <Button
+          color='white'
+          backgroundColor='#1D2D44'
+          text='Logout'
+          onClick={this.logout.bind(this)}
+        />;
     }
 }
 

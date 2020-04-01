@@ -38,8 +38,14 @@ class ChatInput extends Component {
           rightButtons={
             <Button
               color='white'
-              backgroundColor='black'
-              text='Senden'/>
+              backgroundColor='#1D2D44'
+              text='Senden'
+              onClick={() => {
+                this.props.onSubmitMessage(this.state.message, new Date());
+                this.setState({ message: '' });
+                this.refs.input.clear();
+              }}
+            />
           }/>
       </div>
 
