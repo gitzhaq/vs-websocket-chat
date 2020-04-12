@@ -38,7 +38,7 @@ class ChatInput extends Component {
           rightButtons={
             <Button
               color='white'
-              backgroundColor='#1D2D44'
+              backgroundColor='#8f6cd0'
               text='Senden'
               onClick={() => {
                 this.props.onSubmitMessage(this.state.message, new Date());

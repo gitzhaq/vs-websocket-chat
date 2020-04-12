@@ -45,39 +45,55 @@ class Login extends Component {
                 }
             }).catch(err => {
                 console.error(err);
-                alert('Error logging in please try again');
+                alert('Error signing in please try again');
             });
     };
 
     render() {
-        const currentActionText = this.state.isRegistering ? 'Register' : 'Login';
-        const otherActionText = this.state.isRegistering ? 'Login' : 'Register';
-
         return (
             <div>
-                <h1>{currentActionText} Below!</h1>
-                <form onSubmit={this.onSubmit}>
-                    <input
-                        type="text"
-                        name="username"
-                        placeholder="Enter username"
-                        value={this.state.username}
-                        onChange={this.handleInputChange}
-                        required
-                    />
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Enter password"
-                        value={this.state.password}
-                        onChange={this.handleInputChange}
-                        required
-                    />
-                    <input type="submit" value="Submit"/>
-                </form>
-                or:
-                <button onClick={this.onChangeAction.bind(this)}>{otherActionText}</button>
+                <div className="wrapper fadeInDown">
+                    <div id="formContent">
+                        <h2
+                          className={`${this.state.isRegistering ? "underlineHover inactive" : "active"}`}
+                          onClick={this.state.isRegistering ? this.onChangeAction.bind(this) : null}
+                        >
+                            Sign In
+                        </h2>
+                        <h2
+                          className={`${!this.state.isRegistering ? "underlineHover inactive" : "active"}`}
+                          onClick={!this.state.isRegistering ? this.onChangeAction.bind(this) : null}
+                        >
+                            Register
+                        </h2>
+                        <form  onSubmit={this.onSubmit}>
+                            <input
+                              type="text"
+                              name="username"
+                              placeholder="Enter username"
+                              value={this.state.username}
+                              onChange={this.handleInputChange}
+                              required
+                            />
+                            <input
+                              type="password"
+                              name="password"
+                              placeholder="Enter password"
+                              value={this.state.password}
+                              onChange={this.handleInputChange}
+                              required
+                            />
+                            <input
+                              type="submit"
+                              className="fadeIn fourth"
+                              value={`${this.state.isRegistering ? "Register" : "Sign In"}`}
+                            />
+                        </form>
+                    </div>
+                </div>
             </div>
+
+
         )
     }
 }
