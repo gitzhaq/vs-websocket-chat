@@ -12,7 +12,7 @@ class Logout extends Component {
     render() {
         return <Button
           color='white'
-          backgroundColor='#1D2D44'
+          backgroundColor='#8f6cd0'
           text='Logout'
           onClick={this.logout.bind(this)}
         />;
