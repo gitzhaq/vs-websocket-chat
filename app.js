@@ -11,15 +11,11 @@ var userRouter = require('./routes/user');
 
 var app = express();
 
-// start websocket server
-require('./websocket-server');
-
 // set environment variables
 env(__dirname + '/.env');
 
-const mongoDbDatabase = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@${process.env.MONGODB_HOST}/${process.env.MONGODB_DB}?retryWrites=true&w=majority`;
-
 // connect to database
+const mongoDbDatabase = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@${process.env.MONGODB_HOST}/${process.env.MONGODB_DB}?retryWrites=true&w=majority`;
 mongoose.connect(mongoDbDatabase, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -35,9 +31,17 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+
+// serve static files from the React app
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.use('/user', userRouter);
+
+// the "catchall" handler: for any request that doesn't match one of the defined routes, send back React's
+// index.html file.
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

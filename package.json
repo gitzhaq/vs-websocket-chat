@@ -1,12 +1,14 @@
 {
-  "name": "react-backend",
+  "name": "express-websocket-servers",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "heroku-postbuild": "cd client && yarn && yarn run build"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "concurrently": "^5.1.0",
     "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
