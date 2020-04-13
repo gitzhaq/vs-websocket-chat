@@ -1,6 +1,7 @@
 # vs-websocket-chat
 
 A WebSocket chat made with websockets/ws, React.js, Express.js and MongoDB.
+You can found a deployed version of it here: https://vs-websocket-chat.herokuapp.com/
 
 All of the following commands should be executed in the app root directory.
 
