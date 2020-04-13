@@ -20,13 +20,15 @@ exports.createServer = (httpServer) => {
 
     wss.on('connection', function connection(ws) {
         ws
+            // On message event convert message to an event and emit it
             .on('message', (data) => toEvent(ws, data))
+            // On authorization event verify JWT token sent by client
             .on('authorization', (data) => {
                 jwtAuthenticator.verify(data.token, (err, decoded) => {
                     if (err) {
                         ws.send(JSON.stringify({error: err.message}));
                     } else {
-                        // If authenticated add username to ws to know that user is authenticated
+                        // If authenticated add username to ws-object to know that user is authenticated
                         ws.username = decoded.username;
                     }
                 });
