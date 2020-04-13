@@ -4,7 +4,7 @@ import ChatInput from './ChatInput'
 import ChatMessage from './ChatMessage'
 import Logout from "../Authentication/Logout";
 
-const URL = `ws://${window.location.hostname}:3030`;
+const NODE_ENV = process.env.NODE_ENV || 'development';
 
 class Chat extends Component {
     state = {
@@ -14,8 +14,20 @@ class Chat extends Component {
 
     ws = Chat.createWebsocket();
 
+    static getWebSocketHost() {
+        // replace http with ws to handle http/ws and https/wss
+        let host = window.location.origin.replace(/^http/, 'ws');
+
+        if (NODE_ENV !== 'production') {
+            // for development purpose the WebSocket server uses port 3001
+            host = `ws://${window.location.hostname}:3001`;
+        }
+
+        return host;
+    }
+
     static createWebsocket() {
-        return new WebSocket(URL);
+        return new WebSocket(Chat.getWebSocketHost());
     }
 
     componentDidMount() {
@@ -24,7 +36,7 @@ class Chat extends Component {
 
             // on connecting try to authenticate
             this.ws.send(JSON.stringify({
-                type: 'authenticate',
+                type: 'authorization',
                 payload: {token: Cookies.get('token')}
             }));
         };
@@ -40,9 +52,7 @@ class Chat extends Component {
         this.ws.onclose = () => {
             console.log('Websocket server disconnected');
             // automatically try to reconnect on connection loss
-            this.setState({
-                ws: Chat.createWebsocket(),
-            });
+            this.ws = Chat.createWebsocket();
         }
     }
 
@@ -82,10 +92,7 @@ class Chat extends Component {
                     )}
                 </div>
                 <div className={'chat-input'}>
-                    <ChatInput
-                      ws={this.ws}
-                      onSubmitMessage={(messageString, date) => this.submitMessage(messageString, date)}
-                    />
+                    <ChatInput onSubmitMessage={(messageString, date) => this.submitMessage(messageString, date)}/>
                 </div>
             </div>
         )

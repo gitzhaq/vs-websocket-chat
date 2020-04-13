@@ -34,19 +34,19 @@ class Login extends Component {
             }),
             headers: {'Content-Type': 'application/json'}
         }).then(res => {
-                if (res.status === 200) {
-                    res.json().then(json => {
-                        Cookies.set('username', json.username);
-                        Cookies.set('token', json.token);
-                        this.props.handleSuccess();
-                    });
-                } else {
-                    throw new Error(res.error);
-                }
-            }).catch(err => {
-                console.error(err);
-                alert('Error signing in please try again');
-            });
+            if (res.status === 200) {
+                res.json().then(json => {
+                    Cookies.set('username', json.username);
+                    Cookies.set('token', json.token);
+                    this.props.handleSuccess();
+                });
+            } else {
+                throw new Error(res.error);
+            }
+        }).catch(err => {
+            console.error(err);
+            alert('Error signing in please try again');
+        });
     };
 
     render() {
@@ -55,38 +55,38 @@ class Login extends Component {
                 <div className="wrapper fadeInDown">
                     <div id="formContent">
                         <h2
-                          className={`${this.state.isRegistering ? "underlineHover inactive" : "active"}`}
-                          onClick={this.state.isRegistering ? this.onChangeAction.bind(this) : null}
+                            className={`${this.state.isRegistering ? "underlineHover inactive" : "active"}`}
+                            onClick={this.state.isRegistering ? this.onChangeAction.bind(this) : null}
                         >
                             Sign In
                         </h2>
                         <h2
-                          className={`${!this.state.isRegistering ? "underlineHover inactive" : "active"}`}
-                          onClick={!this.state.isRegistering ? this.onChangeAction.bind(this) : null}
+                            className={`${!this.state.isRegistering ? "underlineHover inactive" : "active"}`}
+                            onClick={!this.state.isRegistering ? this.onChangeAction.bind(this) : null}
                         >
                             Register
                         </h2>
                         <form  onSubmit={this.onSubmit}>
                             <input
-                              type="text"
-                              name="username"
-                              placeholder="Enter username"
-                              value={this.state.username}
-                              onChange={this.handleInputChange}
-                              required
+                                type="text"
+                                name="username"
+                                placeholder="Enter username"
+                                value={this.state.username}
+                                onChange={this.handleInputChange}
+                                required
                             />
                             <input
-                              type="password"
-                              name="password"
-                              placeholder="Enter password"
-                              value={this.state.password}
-                              onChange={this.handleInputChange}
-                              required
+                                type="password"
+                                name="password"
+                                placeholder="Enter password"
+                                value={this.state.password}
+                                onChange={this.handleInputChange}
+                                required
                             />
                             <input
-                              type="submit"
-                              className="fadeIn fourth"
-                              value={`${this.state.isRegistering ? "Register" : "Sign In"}`}
+                                type="submit"
+                                className="fadeIn fourth"
+                                value={`${this.state.isRegistering ? "Register" : "Sign In"}`}
                             />
                         </form>
                     </div>
