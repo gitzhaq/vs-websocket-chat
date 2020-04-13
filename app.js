@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const fs = require('fs');
 
 const env = require('node-env-file');
 const mongoose = require('mongoose');
@@ -11,8 +12,11 @@ var userRouter = require('./routes/user');
 
 var app = express();
 
-// set environment variables
-env(__dirname + '/.env');
+// set environment variables from .env if it exists
+const envFile = __dirname + '/.env';
+if (fs.existsSync(envFile)) {
+  env(envFile);
+}
 
 // connect to database
 const mongoDbDatabase = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@${process.env.MONGODB_HOST}/${process.env.MONGODB_DB}?retryWrites=true&w=majority`;
