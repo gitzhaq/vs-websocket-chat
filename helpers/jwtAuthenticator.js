@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 
+// Wrapper for verifying and signing JWTs with same secret everywhere in the application
 class JWTAuthenticator {
     static secret = 'SecretSocket5';
 

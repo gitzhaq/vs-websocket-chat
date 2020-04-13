@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 import { Button } from 'react-chat-elements'
 
 class Logout extends Component {
+    // Logout by removing cookies and reload
     logout() {
         Cookies.remove('username');
         Cookies.remove('token');

@@ -2,6 +2,8 @@
 
 All of the following commands should be executed in the app root directory.
 
+Note: This project uses yarn instead of npm.
+
 ##Preparation
 
 Fill in the .env-Variables by adding a file named ".env" to the root of the project. Inside of it specify the MongoDB

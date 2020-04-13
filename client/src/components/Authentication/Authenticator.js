@@ -8,11 +8,13 @@ class Authenticator extends Component {
     };
 
     handleLoginSuccess(token) {
+        // Handle login by set authenticated true in state
         this.setState({authenticated: true});
     }
 
     componentDidMount() {
         if (Cookies.get('token')) {
+            // If token cookie is set, try to authenticate by server
             fetch('/user/check-auth')
                 .then(res => {
                     if (res.status === 200) {

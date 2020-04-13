@@ -1,16 +1,12 @@
-/**
- * In this file the express router functions get/post are called
- */
-
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const jwtAuthenticator = require('../helpers/jwtAuthenticator');
 
-/**
- * POST register.
- */
+// In this file the express router functions get/post are called
+
+// POST register.
 router.post('/register', (req, res, next) => {
     let { username, password } = req.body;
     username = username.toLowerCase();
@@ -60,9 +56,7 @@ router.post('/register', (req, res, next) => {
     });
 });
 
-/**
- * POST login.
- */
+// POST login.
 router.post('/login', (req, res, next) => {
     let { username, password } = req.body;
     username = username.toLowerCase();
@@ -106,9 +100,7 @@ router.post('/login', (req, res, next) => {
     });
 });
 
-/**
- * GET check authentication.
- */
+// GET check authentication.
 router.get('/check-auth', (req, res) => {
     const token =
         req.body.token ||
@@ -117,12 +109,15 @@ router.get('/check-auth', (req, res) => {
         req.cookies.token;
 
     if (!token) {
+        // Send "401: Unauthorized" if no token is present
         res.status(401).send('Unauthorized: No token provided');
     } else {
+        // Try to verify sent token
         jwtAuthenticator.verify(token, function(err, decoded) {
             if (err) {
                 res.status(401).send('Unauthorized: Invalid token');
             } else {
+                // Token verified
                 res.send('Authorized');
             }
         });

@@ -14,7 +14,7 @@ class Login extends Component {
     };
 
     onChangeAction() {
-        this.setState({isRegistering: !this.state.isRegistering})
+        this.setState({isRegistering: !this.state.isRegistering});
     }
 
     handleInputChange = (event) => {
@@ -26,6 +26,7 @@ class Login extends Component {
 
     onSubmit = (event) => {
         event.preventDefault();
+        // Try to register user
         fetch(this.state.isRegistering ? '/user/register' : '/user/login', {
             method: 'POST',
             body: JSON.stringify({
@@ -35,6 +36,7 @@ class Login extends Component {
             headers: {'Content-Type': 'application/json'}
         }).then(res => {
             if (res.status === 200) {
+                // If successful registrated set cookies and call handleSuccess()
                 res.json().then(json => {
                     Cookies.set('username', json.username);
                     Cookies.set('token', json.token);

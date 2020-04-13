@@ -1,8 +1,9 @@
 const WebSocket = require('ws');
 const jwtAuthenticator = require('./helpers/jwtAuthenticator');
 
+// Export createServer function to create a WebSocket server
 exports.createServer = (httpServer) => {
-    // Start websocket server
+    // Start websocket server and add HTTP server as argument
     const wss = new WebSocket.Server({server: httpServer});
 
     // Emit an event for received messages
@@ -12,12 +13,15 @@ exports.createServer = (httpServer) => {
             if (!event.type || !event.payload) {
                 throw new Error("Message JSON needs to have 'type' and 'payload'");
             }
+            // Emit event of parsed data.type
             ws.emit(event.type, event.payload);
         } catch (err) {
+            // Send error to client
             ws.send(JSON.stringify({error: err.message}));
         }
     }
 
+    // On connection event handle other event types
     wss.on('connection', function connection(ws) {
         ws
             // On message event convert message to an event and emit it

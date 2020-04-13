@@ -15,11 +15,11 @@ class Chat extends Component {
     ws = Chat.createWebsocket();
 
     static getWebSocketHost() {
-        // replace http with ws to handle http/ws and https/wss
+        // Replace http with ws to handle http/ws and https/wss
         let host = window.location.origin.replace(/^http/, 'ws');
 
         if (NODE_ENV !== 'production') {
-            // for development purpose the WebSocket server uses port 3001
+            // For development purpose the WebSocket server uses port 3001
             host = `ws://${window.location.hostname}:3001`;
         }
 
@@ -34,7 +34,7 @@ class Chat extends Component {
         this.ws.onopen = () => {
             console.log('Websocket server connected');
 
-            // on connecting try to authenticate
+            // On connecting try to authenticate
             this.ws.send(JSON.stringify({
                 type: 'authorization',
                 payload: {token: Cookies.get('token')}
@@ -42,7 +42,7 @@ class Chat extends Component {
         };
 
         this.ws.onmessage = evt => {
-            // on receiving a message, add it to the list of messages
+            // On receiving a message, add it to the list of messages
             const message = JSON.parse(evt.data);
             if (!message.error && message.message) {
                 this.addMessage(message);
@@ -51,15 +51,16 @@ class Chat extends Component {
 
         this.ws.onclose = () => {
             console.log('Websocket server disconnected');
-            // automatically try to reconnect on connection loss
+            // Automatically try to reconnect on connection loss
             this.ws = Chat.createWebsocket();
         }
     }
 
+    // Add message to messages array in state
     addMessage = message => this.setState(state => ({messages: [...state.messages, message]}));
 
     submitMessage = (messageString, date) => {
-        // on submitting the ChatInput form, send the message, add it to the list and reset the input
+        // On submitting the ChatInput form, send the message, add it to the list and reset the input
         this.ws.send(JSON.stringify({
             type: 'chat',
             payload: {
@@ -68,6 +69,7 @@ class Chat extends Component {
             }
         }));
 
+        // Add own message to messages
         this.addMessage({
             username: this.state.username,
             message: messageString,
