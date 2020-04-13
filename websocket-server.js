@@ -32,7 +32,6 @@ exports.createServer = (httpServer) => {
                 });
             })
             .on('chat', (data) => {
-                console.log(data);
                 // Check if sender is authenticated
                 if (ws.username) {
                     wss.clients.forEach((client) => {
